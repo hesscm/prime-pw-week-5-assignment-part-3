@@ -13,11 +13,22 @@ function addToCollection(title, artist, yearPublished) {
   return newAlbum;
 }
 
-function showCollection(collection) {
-  console.log(collection.length);
-  for (var i = 0; i < collection.length; i++) {
-    console.log(`${collection[i].title} by ${collection[i].artist}, published in ${collection[i].yearPublished}.`);
+function showCollection(array) {
+  console.log(array.length);
+  for (var i = 0; i < array.length; i++) {
+    console.log(`${array[i].title} by ${array[i].artist}, published in ${array[i].yearPublished}.`);
   }
+}
+
+function findByArtist(artist) {
+  let array = [];
+  for (var i = 0; i < collection.length; i++) {
+    if (collection[i].artist === artist) {
+      console.log('found artist');
+      array.push(collection[i]);
+    }
+  }
+  return array;
 }
 
 console.log(addToCollection('No Roots', 'Alice Merton', 2016));
@@ -26,7 +37,11 @@ console.log(addToCollection('Nightmare', 'Avenged Sevenfold', 2010));
 console.log(addToCollection('Little Voice', 'Sara Bareilles', 2007));
 console.log(addToCollection('Wildfire', 'Rachel Platten', 2016));
 console.log(addToCollection('Boston', 'Boston', 1976));
+console.log(addToCollection('...And Justice For All', 'Metallica', 1988));
+
 
 
 console.log(collection);
 showCollection(collection);
+console.log(findByArtist('Metallica'));
+console.log(findByArtist('Green Day'));
