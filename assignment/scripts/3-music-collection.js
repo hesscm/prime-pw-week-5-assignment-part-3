@@ -65,7 +65,7 @@ function main() {
 //Add a track and track duration to a specific album
 function addTracksToAlbum(albumName, trackName, duration) {
   //iterate through the collection array
-  for (var i = 0; i < collection.length; i++) {
+  for (let i = 0; i < collection.length; i++) {
     //if the album matches, add the track title and duration to the tracks array
     if (albumName === collection[i].title) {
       collection[i].tracks.push({title: trackName, duration: duration});
