@@ -20,6 +20,7 @@ function main() {
   console.log(addToCollection('Little Voice', 'Sara Bareilles', 2007));
   console.log(addToCollection('Wildfire', 'Rachel Platten', 2016));
   console.log(addToCollection('Boston', 'Boston', 1976));
+  //extra album to test multiple albums by 1 artist
   console.log(addToCollection('...And Justice For All', 'Metallica', 1988));
   console.log(collection);   //print collection to the console
 
@@ -40,28 +41,47 @@ function main() {
   console.log(search({artist: 'Metallica', yearPublished: 1999}));
   //search with empty object
 
-  // test = Object.keys(collection[0]);
-  // console.log(test[0]);
-  // if (test[0] === 'title') {
-  //   console.log('success');
-  // }
-  // console.log('-------------------------');
-  // let testArray = ['artist', 'title', 'yearPublished'];
-  // let test2 = ['artist', 'yearPublished'];
-  // console.log(testArray.indexOf('artist'));
-  // for (var i = 0; i < test2.length; i++) {
-  //   if (test2[i] )
-  // }
+  //Adding 2 tracks per album
+  console.log('----TRACKS ARRAY STRETCH GOAL----');
+  //search for the album and then insert the track name and track duration
+  //Adding 2 tracks per album
+  addTracksToAlbum('No Roots', 'No Roots', '3:58');
+  addTracksToAlbum('No Roots', 'Jealousy', '3:40');
+  addTracksToAlbum('Master of Puppets', 'Battery', '5:12');
+  addTracksToAlbum('Master of Puppets', 'Master of Puppets', '5:12');
+  addTracksToAlbum('Nightmare', 'Welcome to the Family', '4:08');
+  addTracksToAlbum('Nightmare', 'Buried Alive', '6:44');
+  addTracksToAlbum('Little Voice', 'Love Song', '4:19');
+  addTracksToAlbum('Little Voice', 'Vegas', '4:07');
+  addTracksToAlbum('Wildfire', 'Stand By You', '3:39');
+  addTracksToAlbum('Wildfire', 'Better Place', '2:56');
+  addTracksToAlbum('Boston', 'More Than a Feeling', '4:46');
+  addTracksToAlbum('Boston', 'Foreplay/Long Time', '7:47');
+
+  showCollection(collection);
+  search({track: 'Buried Alive'});
+}
+
+//Add a track and track duration to a specific album
+function addTracksToAlbum(albumName, trackName, duration) {
+  //iterate through the collection array
+  for (var i = 0; i < collection.length; i++) {
+    //if the album matches, add the track title and duration to the tracks array
+    if (albumName === collection[i].title) {
+      collection[i].tracks.push({title: trackName, duration: duration});
+    }
+  }
 }
 
 //Add an album to the collection array. Take in arguments
 //title, artist, and the year published.
-function addToCollection(title, artist, yearPublished) {
+function addToCollection(title, artist, yearPublished, trackName, trackDuration) {
   let newAlbum = { //new album object
     //add property values
     title: title,
     artist: artist,
-    yearPublished: yearPublished
+    yearPublished: yearPublished,
+    tracks: [] //added for tracks stretch goal
   }
   collection.push(newAlbum); //add album object to collection array
   return newAlbum; //return the album object
@@ -73,8 +93,18 @@ function showCollection(array) {
   console.log('Number of items in collection: ' + array.length); //log the amount of keys in the array
   //iterate through the array
   for (let i = 0; i < array.length; i++) {
-    //print each value, formatted according to the requirements
-    console.log(`${array[i].title} by ${array[i].artist}, published in ${array[i].yearPublished}.`);
+    //if there are no tracks, print this
+    if (array[i].tracks.length === 0) {
+      //print each value, formatted according to the requirements
+      console.log(`${array[i].title} by ${array[i].artist}, published in ${array[i].yearPublished}.`);
+    }
+    //else, print the tracks as well
+    else {
+      console.log(`${array[i].title} by ${array[i].artist}, published in ${array[i].yearPublished}:
+1. ${array[i].tracks[0].title}: ${array[i].tracks[0].duration}
+2. ${array[i].tracks[1].title}: ${array[i].tracks[1].duration}`);
+
+    }
   }
 }
 
@@ -103,6 +133,11 @@ function findByArtist(artist) {
 //This function can also identify if the object is empty or if the argument
 //is not an object.
 function search(searchObject) {
+
+
+  if (searchObject.track === 'Buried Alive') {
+    console.log('woot');
+  }
   //check if the object has keys(properties) or if the argument is not an object
   if (Object.keys(searchObject).length === 0 || searchObject.constructor != Object) {
     //log confirmation that nothing was found to the console
@@ -118,9 +153,22 @@ function search(searchObject) {
     if (collection[i].artist === searchObject.artist &&
         collection[i].yearPublished === searchObject.yearPublished) {
       //add the found albums to the local array
-      newArray.push({artist: searchObject.artist,
-                     yearPublished: searchObject.yearPublished})
+      newArray.push(collection[i]);
     }
+
+    /*--------------HELP---------------*/
+    //this works and logs the correct tracks...
+    //console.log(collection[1].tracks[0]);
+    //but this doesn't, and I have no idea why. property is returned as undefined
+    //console.log(collection[1].tracks[0].title);
+
+
+    //if there is a match, push the whole album to the new array
+    // if (searchObject.track === collection[i].tracks[0].title){
+    //    console.log('test successful');
+    //    newArray.push(collection[i]);
+    // }
+   /*-------------END HELP--------------*/
   }
   //console clarity to alert if results were found
   if (newArray.length === 0) {
